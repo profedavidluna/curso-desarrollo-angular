@@ -1,1 +1,18 @@
-Angular project gitignore with node_modules, dist, IDE files, etc.
+# Angular project ignore patterns
+
+# node_modules directory
+node_modules/
+
+# production build
+dist/
+
+# generated Angular files
+.angular/
+
+# IDE files
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# environment files
+*.env
