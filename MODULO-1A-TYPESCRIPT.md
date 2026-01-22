@@ -1,171 +1,769 @@
-# Fundamentos de TypeScript
+# 📘 Módulo 1A: TypeScript - Fundamentos Completos
 
-## Introducción a TypeScript y por qué usarlo
-TypeScript es un superconjunto de JavaScript que añade tipado estático al lenguaje. Este tipado ayuda a detectar errores en tiempo de desarrollo, lo que reduce los errores en tiempo de ejecución. Además, TypeScript se compila en JavaScript puro, lo que significa que puede ejecutarse en cualquier entorno donde JavaScript esté disponible.
+**Duración**:  4 horas  
+**Nivel**: Intermedio  
+**Prerequisito**: JavaScript básico
 
-## Sistema de tipos completo
+---
 
-TypeScript ofrece un sistema de tipos que abarca:
-- Primitivos: `string`, `number`, `boolean`, `null`, `undefined`, etc.
-- Arrays:
-```typescript
-let numbers: number[] = [1, 2, 3];
+## 🎯 Objetivos de Aprendizaje
+
+Al completar este módulo, serás capaz de: 
+
+- ✅ Entender por qué TypeScript es esencial en desarrollo moderno
+- ✅ Dominar el sistema de tipos de TypeScript
+- ✅ Crear interfaces, tipos personalizados y genéricos
+- ✅ Aplicar decoradores (esenciales para Angular)
+- ✅ Usar módulos y namespaces efectivamente
+- ✅ Configurar y usar TypeScript en proyectos reales
+- ✅ Aplicar buenas prácticas y patrones de diseño con TypeScript
+- ✅ Debuggear y resolver errores de tipos
+
+---
+
+## 📖 ¿Qué es TypeScript y Por Qué Usarlo? 
+
+### Definición
+
+**TypeScript** es un **superset** de JavaScript que añade **tipado estático opcional** y otras características avanzadas. Se compila a JavaScript puro. 
+
 ```
-- Tuplas:
-```typescript
-let tuple: [string, number] = ['hello', 10];
-```
-- Enums:
-```typescript
-enum Color { Red, Green, Blue };
-let c: Color = Color.Green;
+TypeScript (. ts) → Compilador → JavaScript (.js)
 ```
 
-## Interfaces y alias de tipo
-Las interfaces son una forma de definir la estructura de un objeto, mientras que los alias de tipo permiten crear un nuevo nombre para un tipo existente.
+### Historia y Contexto (2026)
 
-- Ejemplo de interfaz:
+- **Creado por**:  Microsoft (Anders Hejlsberg - creador de C#)
+- **Primera versión**: 2012
+- **Versión actual**: TypeScript 5.x (2026)
+- **Usado por**: Angular, React (con tipos), Vue 3, Node.js, Deno
+- **Estadísticas 2026**:
+  - +90% de nuevos proyectos corporativos usan TypeScript
+  - GitHub: +10 millones de repositorios
+  - Stack Overflow: Top 5 lenguajes más amados
+
+### JavaScript vs TypeScript
+
+| Característica | JavaScript | TypeScript |
+|----------------|------------|------------|
+| Tipado | Dinámico, débil | Estático, fuerte (opcional) |
+| Errores | En runtime (ejecución) | En compile-time (desarrollo) |
+| Autocompletado IDE | Limitado | Excelente (IntelliSense) |
+| Refactoring | Riesgoso | Seguro |
+| Documentación | Comentarios | Tipos = Documentación |
+| Curva aprendizaje | Baja | Media |
+| Performance | Nativa | Igual (compila a JS) |
+
+### ¿Por Qué Angular Usa TypeScript?
+
+1. **Tipos estáticos** → Menos errores en apps grandes
+2. **Decoradores** → Sistema de metadatos para componentes, servicios
+3. **Interfaces** → Contratos claros entre componentes
+4. **Autocompletado** → Productividad x10
+5. **Refactoring seguro** → Cambios masivos sin miedo
+6. **Ecosistema** → Librerías con tipos (`@types/*`)
+
+---
+
+## 🔤 Parte 1: Sistema de Tipos
+
+### 1.1 Tipos Primitivos
+
 ```typescript
-interface Persona {
-    nombre: string;
-    edad: number;
+// ========== TIPOS BÁSICOS ==========
+
+// String
+let nombre: string = 'Angular';
+let apellido: string = "Developer";
+let mensaje: string = `Hola ${nombre}`;
+
+// Number
+let edad: number = 30;
+let precio: number = 99.99;
+let hex: number = 0xf00d;
+
+// Boolean
+let esActivo: boolean = true;
+
+// Null y Undefined
+let valorNulo: null = null;
+let valorIndefinido: undefined = undefined;
+
+// Any (evitar en lo posible)
+let cualquierCosa: any = 'texto';
+cualquierCosa = 42;
+
+// Unknown (mejor que any)
+let valorDesconocido: unknown = 'texto';
+if (typeof valorDesconocido === 'string') {
+  console.log(valorDesconocido.toUpperCase());
 }
 
-const persona: Persona = {
-    nombre: 'Juan',
-    edad: 30
+// Void (funciones sin retorno)
+function mostrarMensaje(): void {
+  console.log('Hola');
+}
+
+// Never (funciones que nunca terminan)
+function error(mensaje: string): never {
+  throw new Error(mensaje);
+}
+```
+
+### 1.2 Arrays y Tuplas
+
+```typescript
+// Arrays
+let numeros: number[] = [1, 2, 3, 4, 5];
+let palabras: string[] = ['uno', 'dos', 'tres'];
+
+// Forma 2:  Array<Tipo>
+let colores: Array<string> = ['rojo', 'azul', 'verde'];
+
+// Tuplas
+let persona: [string, number] = ['Juan', 30];
+let punto2D: [number, number] = [10, 20];
+
+// Destructuring de tuplas
+let [x, y] = punto2D;
+console.log(`X: ${x}, Y: ${y}`);
+```
+
+### 1.3 Enums
+
+```typescript
+// Enum numérico
+enum DiaSemana {
+  Lunes,
+  Martes,
+  Miércoles,
+  Jueves,
+  Viernes,
+  Sábado,
+  Domingo
+}
+
+// Enum con valores
+enum HttpStatus {
+  OK = 200,
+  Created = 201,
+  BadRequest = 400,
+  NotFound = 404
+}
+
+// Enum de strings
+enum Rol {
+  Admin = 'ADMIN',
+  Usuario = 'USER',
+  Invitado = 'GUEST'
+}
+
+let rolActual: Rol = Rol. Admin;
+console.log(rolActual); // "ADMIN"
+```
+
+---
+
+## 🏗️ Parte 2: Interfaces y Tipos Personalizados
+
+### 2.1 Interfaces
+
+```typescript
+// Interface básica
+interface Persona {
+  nombre: string;
+  edad: number;
+}
+
+let usuario: Persona = {
+  nombre: 'Ana',
+  edad: 25
+};
+
+// Propiedades opcionales
+interface Config {
+  host: string;
+  puerto: number;
+  timeout?:  number; // Opcional
+}
+
+// Propiedades readonly
+interface Punto {
+  readonly x: number;
+  readonly y: number;
+}
+
+// Métodos en interfaces
+interface Calculadora {
+  sumar(a: number, b:  number): number;
+  restar(a: number, b: number): number;
+}
+
+// Extender interfaces
+interface Animal {
+  nombre: string;
+  edad: number;
+}
+
+interface Perro extends Animal {
+  raza: string;
+  ladrar(): void;
+}
+
+let miPerro: Perro = {
+  nombre: 'Max',
+  edad: 3,
+  raza: 'Labrador',
+  ladrar() {
+    console.log('Guau guau! ');
+  }
 };
 ```
 
-- Ejemplo de alias de tipo:
+### 2.2 Type Aliases
+
 ```typescript
+// Type básico
+type ID = number | string;
+
+let userId: ID = 123;
+let productId: ID = 'ABC-456';
+
+// Union Types
+type Resultado = 'éxito' | 'error' | 'pendiente';
+
+// Intersection Types
+type Timestamped = {
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type Usuario = {
+  id: number;
+  nombre: string;
+};
+
+type UsuarioConTimestamp = Usuario & Timestamped;
+
+// Literal Types
+type Direccion = 'norte' | 'sur' | 'este' | 'oeste';
+
+function mover(direccion: Direccion, pasos: number): void {
+  console.log(`Moviendo ${pasos} pasos al ${direccion}`);
+}
+
+mover('norte', 10); // ✅ OK
+// mover('arriba', 10); // ❌ Error
+```
+
+### 2.3 Interface vs Type
+
+```typescript
+// ✅ Usa INTERFACE cuando:
+// 1. Defines la estructura de objetos/clases
+interface PersonaInterface {
+  nombre: string;
+  edad: number;
+}
+
+// 2. Necesitas extender/heredar
+interface Empleado extends PersonaInterface {
+  salario: number;
+}
+
+// ✅ Usa TYPE cuando:
+// 1. Defines Union Types
+type Estado = 'activo' | 'inactivo' | 'pendiente';
+
+// 2. Defines Intersection Types
+type EmpleadoCompleto = PersonaInterface & Empleado;
+
+// 3. Usas tipos primitivos
 type ID = string | number;
 ```
 
-## Clases y POO
-La Programación Orientada a Objetos (POO) en TypeScript permite utilizar modificadores de acceso, herencia, clases abstractas, y más.
+---
 
-- Clase básica:
+## 🎭 Parte 3: Clases y POO
+
+### 3.1 Clases Básicas
+
+```typescript
+class Persona {
+  // Propiedades
+  nombre: string;
+  edad: number;
+  
+  // Constructor
+  constructor(nombre: string, edad: number) {
+    this.nombre = nombre;
+    this.edad = edad;
+  }
+  
+  // Métodos
+  saludar(): string {
+    return `Hola, soy ${this.nombre}`;
+  }
+}
+
+let persona1 = new Persona('Ana', 25);
+console.log(persona1.saludar());
+
+// Shorthand en constructor
+class Usuario {
+  constructor(
+    public id: number,
+    public username: string,
+    private password: string,
+    protected email:  string
+  ) {}
+}
+```
+
+### 3.2 Modificadores de Acceso
+
+```typescript
+class CuentaBancaria {
+  public titular: string;
+  private saldo: number;
+  protected numeroCuenta: string;
+  readonly banco: string;
+  
+  constructor(titular: string, saldoInicial: number) {
+    this.titular = titular;
+    this.saldo = saldoInicial;
+    this.numeroCuenta = '123456';
+    this.banco = 'Banco Nacional';
+  }
+  
+  depositar(cantidad: number): void {
+    if (cantidad > 0) {
+      this.saldo += cantidad;
+    }
+  }
+  
+  consultarSaldo(): number {
+    return this.saldo;
+  }
+}
+```
+
+### 3.3 Herencia
+
 ```typescript
 class Animal {
-    constructor(public nombre: string) {}
-    hacerSonido() { console.log('Sonido de animal'); }
+  constructor(public nombre:  string) {}
+  
+  hacerSonido(): void {
+    console.log('Algún sonido');
+  }
 }
 
 class Perro extends Animal {
-    hacerSonido() { console.log('Ladrido'); }
+  constructor(nombre: string, public raza: string) {
+    super(nombre);
+  }
+  
+  hacerSonido(): void {
+    console.log('Guau guau!');
+  }
+}
+
+let miPerro = new Perro('Max', 'Labrador');
+miPerro.hacerSonido(); // "Guau guau!"
+```
+
+### 3.4 Clases Abstractas
+
+```typescript
+abstract class Figura {
+  constructor(public color: string) {}
+  
+  abstract calcularArea(): number;
+  abstract calcularPerimetro(): number;
+}
+
+class Circulo extends Figura {
+  constructor(color: string, public radio: number) {
+    super(color);
+  }
+  
+  calcularArea(): number {
+    return Math.PI * this.radio ** 2;
+  }
+  
+  calcularPerimetro(): number {
+    return 2 * Math.PI * this.radio;
+  }
 }
 ```
 
-- Getters y Setters:
-```typescript
-class Persona {
-    private _edad: number;
+### 3.5 Getters y Setters
 
-    constructor(public nombre: string, edad: number) {
-        this._edad = edad;
+```typescript
+class Empleado {
+  private _salario: number;
+  
+  constructor(public nombre: string, salarioInicial: number) {
+    this._salario = salarioInicial;
+  }
+  
+  get salario(): number {
+    return this._salario;
+  }
+  
+  set salario(nuevoSalario: number) {
+    if (nuevoSalario < 0) {
+      throw new Error('Salario no puede ser negativo');
     }
-
-    get edad() { return this._edad; }
-    set edad(nuevaEdad: number) { this._edad = nuevaEdad; }
+    this._salario = nuevoSalario;
+  }
 }
+
+let empleado = new Empleado('Carlos', 3000);
+console.log(empleado.salario);
+empleado.salario = 3500;
 ```
 
-- Clases estáticas:
-```typescript
-class Matemáticas {
-    static suma(a: number, b: number): number {
-        return a + b;
-    }
-}
-``` 
+---
 
-## Genéricos
-Los genéricos pueden usarse en funciones, clases e interfaces para mantener la flexibilidad y reutilización del código.
+## 🔮 Parte 4: Genéricos
 
-- Ejemplo de función genérica:
+### 4.1 Funciones Genéricas
+
 ```typescript
-function identidad<T>(arg: T): T {
-    return arg;
+// Función genérica
+function identidad<T>(valor: T): T {
+  return valor;
 }
+
+let numero = identidad<number>(42);
+let texto = identidad<string>('Hola');
+
+// Genérico con restricciones
+interface TieneLongitud {
+  length: number;
+}
+
+function mostrarLongitud<T extends TieneLongitud>(elemento: T): number {
+  return elemento.length;
+}
+
+console.log(mostrarLongitud('texto')); // 5
+console.log(mostrarLongitud([1, 2, 3])); // 3
 ```
 
-- Ejemplo de clase genérica:
+### 4.2 Clases Genéricas
+
 ```typescript
 class Caja<T> {
-    contenidos: T[] = [];
-
-    agregar(item: T) {
-        this.contenidos.push(item);
-    }
+  private contenido: T;
+  
+  constructor(valor: T) {
+    this.contenido = valor;
+  }
+  
+  obtener(): T {
+    return this. contenido;
+  }
 }
+
+let cajaNumero = new Caja<number>(123);
+let cajaTexto = new Caja<string>('Angular');
 ```
 
-## Decoradores
-Los decoradores son una característica avanzada en TypeScript, especialmente útiles en Angular.
+### 4.3 Interfaces Genéricas
 
-- Ejemplo de decorador:
 ```typescript
-function Log(target: any, propertyName: string | symbol, descriptor: PropertyDescriptor) {
-    console.log(`Llamada al método: ${String(propertyName)}`);
+interface Repositorio<T> {
+  obtenerTodos(): T[];
+  obtenerPorId(id:  number): T | undefined;
+  crear(item: T): T;
 }
 
-class Ejemplo {
-    @Log
-    metodoEjemplo() {
-        console.log('Ejecutando método de ejemplo');
-    }
+class UsuarioRepositorio implements Repositorio<Usuario> {
+  private usuarios: Usuario[] = [];
+  
+  obtenerTodos(): Usuario[] {
+    return [... this.usuarios];
+  }
+  
+  obtenerPorId(id: number): Usuario | undefined {
+    return this.usuarios. find(u => u.id === id);
+  }
+  
+  crear(usuario: Usuario): Usuario {
+    this.usuarios.push(usuario);
+    return usuario;
+  }
 }
 ```
 
-## Módulos y espacios de nombres
-TypeScript permite organizar el código en módulos para mantener el espacio de nombres limpio y evitar conflictos.
+### 4.4 Utility Types
 
-- Ejemplo de módulo:
 ```typescript
-export class Vehiculo {
-    constructor(public marca: string) {}
+interface Tarea {
+  id: number;
+  titulo: string;
+  completada: boolean;
+}
+
+// Partial<T> - Todas las propiedades opcionales
+type TareaParcial = Partial<Tarea>;
+
+// Required<T> - Todas obligatorias
+type TareaCompleta = Required<Tarea>;
+
+// Readonly<T> - Todas readonly
+type TareaInmutable = Readonly<Tarea>;
+
+// Pick<T, Keys> - Seleccionar propiedades
+type TareaResumen = Pick<Tarea, 'id' | 'titulo'>;
+
+// Omit<T, Keys> - Excluir propiedades
+type TareaSinID = Omit<Tarea, 'id'>;
+
+// Record<Keys, Type>
+type EstadoTareas = Record<number, Tarea>;
+```
+
+---
+
+## 🎨 Parte 5: Decoradores
+
+### 5.1 ¿Qué son los Decoradores?
+
+```typescript
+// Habilitar en tsconfig.json:
+// "experimentalDecorators": true
+
+// Decorador de clase
+function Component(config: any) {
+  return function(constructor: Function) {
+    constructor.prototype.metadata = config;
+  };
+}
+
+@Component({
+  selector: 'app-usuario',
+  template: '<h1>Usuario</h1>'
+})
+class UsuarioComponent {}
+
+// Decorador de método
+function Log(target: any, propertyName: string, descriptor: PropertyDescriptor) {
+  const metodoOriginal = descriptor.value;
+  
+  descriptor.value = function(...args: any[]) {
+    console.log(`Llamando a ${propertyName}`);
+    return metodoOriginal.apply(this, args);
+  };
+}
+
+class Calculadora {
+  @Log
+  sumar(a: number, b: number): number {
+    return a + b;
+  }
 }
 ```
 
-## Explicación completa de tsconfig.json
-El archivo `tsconfig.json` es esencial para configurar cómo TypeScript compila el código. Contiene opciones como `target`, `module`, `strict`, y más.
+### 5.2 Decoradores en Angular
 
-- Ejemplo de un tsconfig.json:
+```typescript
+// @Component - Define un componente
+@Component({
+  selector: 'app-hero',
+  template: `<h2>{{hero.name}}</h2>`
+})
+export class HeroComponent {}
+
+// @Input - Propiedad de entrada
+export class ChildComponent {
+  @Input() mensaje: string = '';
+}
+
+// @Injectable - Servicio inyectable
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {}
+```
+
+---
+
+## ⚙️ Parte 6: Configuración de TypeScript
+
+### 6.1 tsconfig.json
+
 ```json
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true
-    }
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
 ```
 
-## Mejores prácticas
-- Utiliza `strict mode` en tu `tsconfig.json`.
-- Mantén una consistencia en la nomenclatura.
-- Utiliza interfaces para definir la forma de los objetos.
-- Realiza revisiones de código regularmente.
+### 6.2 Comandos TypeScript
 
-## Errores comunes y soluciones
-- No declarar tipos puede provocar errores. Siempre define el tipo de las variables.
-- Ignorar los mensajes de error de TypeScript puede llevar a problemas en tiempo de ejecución. Siempre verifica y corrige los errores.
+```bash
+# Compilar un archivo
+tsc archivo.ts
 
-## Recursos de aprendizaje
-- Documentación oficial de TypeScript: [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- Tutoriales en línea y cursos.
-- Libros sobre TypeScript.
+# Compilar usando tsconfig.json
+tsc
 
-## Lista de verificación de dominio
-- [ ] Entender los tipos básicos.
-- [ ] Saber cómo usar interfaces y tipos.
-- [ ] Conocer y aplicar POO en TypeScript.
-- [ ] Implementar genéricos.
-- [ ] Utilizar decoradores.
+# Modo watch
+tsc --watch
 
-## Ejercicios prácticos
-1. Crea una clase `Usuario` que tenga un método para mostrar la información del usuario.
-2. Implementa una interfaz `Producto` y usa una función genérica para filtrar un array de productos.
-3. Haz uso de decoradores para registrar el acceso a métodos en una clase de tu elección.
+# Verificar tipos sin generar JS
+tsc --noEmit
+
+# Inicializar tsconfig.json
+tsc --init
+```
+
+---
+
+## ✅ Buenas Prácticas
+
+1. **Evitar `any`**
+```typescript
+// ❌ MAL
+function procesar(datos: any) {}
+
+// ✅ BIEN
+function procesar(datos: string): string {}
+```
+
+2. **Usar `unknown` para valores desconocidos**
+```typescript
+// ✅ BIEN
+function parsear(json: string): unknown {
+  return JSON.parse(json);
+}
+```
+
+3. **Tipos explícitos**
+```typescript
+// ✅ BIEN
+function getHero(id: number): Observable<Hero> {
+  return this.http.get<Hero>(`/api/heroes/${id}`);
+}
+```
+
+4. **Preferir `interface` para objetos**
+```typescript
+// ✅ BIEN
+interface Usuario {
+  id: number;
+  nombre: string;
+}
+```
+
+5. **Usar `readonly` para inmutabilidad**
+```typescript
+interface Config {
+  readonly apiUrl: string;
+}
+```
+
+---
+
+## 🐛 Errores Comunes
+
+### Error: "Cannot find name"
+```typescript
+// ❌ Error
+console.log(miVariable);
+
+// ✅ Solución
+let miVariable = 'valor';
+console.log(miVariable);
+```
+
+### Error: "Object is possibly 'undefined'"
+```typescript
+// ✅ Solución 1: Optional chaining
+console.log(usuario. nombre?.toUpperCase());
+
+// ✅ Solución 2: Type guard
+if (usuario. nombre) {
+  console.log(usuario.nombre.toUpperCase());
+}
+```
+
+---
+
+## 📚 Recursos
+
+### Documentación
+- **TypeScript Handbook**: https://www.typescriptlang.org/docs/
+- **TypeScript Playground**: https://www.typescriptlang.org/play
+- **TypeScript Deep Dive**: https://basarat.gitbook.io/typescript/
+
+### Cursos
+- **Execute Program**: https://www.executeprogram.com/courses/typescript
+- **Total TypeScript**: https://www.totaltypescript.com/
+
+### Libros
+- **"Programming TypeScript"** - Boris Cherny
+- **"Effective TypeScript"** - Dan Vanderkam
+
+---
+
+## ✅ Checklist de Dominio
+
+### Básico
+- [ ] Tipos primitivos
+- [ ] Arrays y Tuplas
+- [ ] Enums
+- [ ] Type annotations
+
+### Intermedio
+- [ ] Interfaces y Type aliases
+- [ ] Clases con modificadores
+- [ ] Herencia
+- [ ] Getters y setters
+
+### Avanzado
+- [ ] Genéricos
+- [ ] Utility types
+- [ ] Decoradores
+- [ ] Type guards
+
+---
+
+## 🎯 Ejercicios
+
+### Ejercicio 1: Sistema de Biblioteca
+Crear interfaces para `Libro`, `Autor`, `Usuario` y clase `Biblioteca` con métodos de gestión.
+
+### Ejercicio 2: API Client Tipado
+Crear cliente HTTP con tipos genéricos para diferentes endpoints.
+
+### Ejercicio 3: State Management
+Implementar sistema simple de gestión de estado con genéricos.
+
+---
+
+**¡Felicidades! ** Has completado TypeScript. 
+
+→ **Siguiente:  [Módulo 1B:  Angular](./MODULO-1B-ANGULAR-INTRO.md)**
+
+---
+
+**Última actualización**:  Enero 2026  
+**Autor**: Prof. David Luna
