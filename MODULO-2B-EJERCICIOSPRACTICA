@@ -1,0 +1,57 @@
+# Ejercicios de Práctica para el Curso de Desarrollo Angular
+
+## Ejercicio 1: Carrito de Compras
+
+### Requisitos:
+1. Crear una aplicación que permita a los usuarios agregar productos a un carrito de compras.
+2. Mostrar la lista de productos en el carrito y el total a pagar.
+3. Implementar la funcionalidad de eliminar productos del carrito.
+4. La aplicación debe ser responsiva y funcionar en dispositivos móviles y de escritorio.
+
+### Especificaciones Técnicas:
+- Usar Angular para la construcción del frontend.
+- Implementar servicios para manejar el estado del carrito.
+- Utilizar Bootstrap o Angular Material para el diseño de la interfaz.
+
+### Criterios de Evaluación:
+- Correcta implementación de las funcionalidades requeridas (30%).
+- Calidad del código y buenas prácticas de programación (30%).
+- Experiencia de usuario y diseño responsivo (40%).
+
+---
+
+## Ejercicio 2: Chat en Tiempo Real
+
+### Requisitos:
+1. Desarrollar un sistema de chat que permita enviar y recibir mensajes en tiempo real.
+2. Implementar características como vista de usuarios en línea y conversaciones privadas.
+3. La aplicación debe almacenar los mensajes en una base de datos.
+
+### Especificaciones Técnicas:
+- Usar Angular para el frontend y Node.js para el backend.
+- Implementar WebSocket para la comunicación en tiempo real.
+- Utilizar Firebase o MongoDB para almacenar los mensajes.
+
+### Criterios de Evaluación:
+- Funcionalidad de envío y recepción de mensajes (40%).
+- Implementación correcta de la interfaz de usuario (30%).
+- Manejo eficiente de la base de datos y WebSocket (30%).
+
+---
+
+## Ejercicio 3: CRUD de Usuarios
+
+### Requisitos:
+1. Crear una aplicación para administrar usuarios (crear, leer, actualizar y eliminar).
+2. Incorporar validaciones en los formularios para la creación y actualización de usuarios.
+3. Implementar paginación y búsqueda de usuarios.
+
+### Especificaciones Técnicas:
+- Utilizar Angular para el desarrollo del frontend.
+- Implementar un API RESTful con Node.js y Express para manejar los datos de usuarios.
+- Usar una base de datos SQL o NoSQL para almacenamiento.
+
+### Criterios de Evaluación:
+- Complejidad de la implementación del CRUD (40%).
+- Validaciones y manejo de errores en formularios (30%).
+- Diseño de la interfaz y experiencia de usuario (30%).
