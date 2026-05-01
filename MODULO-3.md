@@ -64,7 +64,7 @@ export class AppComponent {}
 
 ## 2. Rutas con Parámetros
 
-### 2.1. Parámetros de ruta (Route Parameters)
+### 2.1. Parámetros de Ruta
 
 Los parámetros de ruta permiten pasar valores dinámicos en la URL.
 
@@ -98,15 +98,15 @@ export class PersonajeDetalleComponent implements OnInit {
 }
 ```
 
-### 2.2. Query Parameters
+### 2.2. Parámetros de Consulta
 
-Los query parameters son opcionales y se pasan después del signo `?` en la URL.
+Los parámetros de consulta son opcionales y se pasan después del signo `?` en la URL.
 
 ```typescript
-// Navegar con query params
+// Navegar con parámetros de consulta
 this.router.navigate(['/personajes'], { queryParams: { page: 2, status: 'alive' } });
 
-// Leer query params
+// Leer parámetros de consulta
 this.route.queryParamMap.subscribe(params => {
   const page = params.get('page');
   const status = params.get('status');
@@ -115,7 +115,7 @@ this.route.queryParamMap.subscribe(params => {
 
 ---
 
-## 3. Rutas Anidadas (Child Routes)
+## 3. Rutas Anidadas
 
 Las rutas anidadas permiten definir sub-vistas dentro de un componente padre.
 
@@ -137,9 +137,9 @@ El componente padre debe incluir su propio `<router-outlet>` para renderizar las
 
 ---
 
-## 4. Lazy Loading
+## 4. Carga Diferida
 
-El Lazy Loading carga módulos o componentes bajo demanda, mejorando el tiempo de carga inicial de la aplicación.
+La carga diferida carga módulos o componentes bajo demanda, mejorando el tiempo de carga inicial de la aplicación.
 
 ```typescript
 // app.routes.ts
@@ -159,7 +159,7 @@ export const routes: Routes = [
 
 ---
 
-## 5. Guardias de Navegación (Route Guards)
+## 5. Guardias de Navegación
 
 Los guardias permiten controlar el acceso a las rutas según ciertas condiciones (autenticación, permisos, etc.).
 
@@ -240,13 +240,13 @@ export class LoginComponent {
 
 ## 7. Formularios en Angular
 
-Angular ofrece dos enfoques para trabajar con formularios: **Template-driven Forms** y **Reactive Forms**.
+Angular ofrece dos enfoques para trabajar con formularios: **Formularios Basados en Plantilla** y **Formularios Reactivos**.
 
 ---
 
-## 8. Template-driven Forms
+## 8. Formularios Basados en Plantilla
 
-Los formularios dirigidos por plantilla son simples y se definen principalmente en el HTML. Son ideales para formularios sencillos.
+Los formularios basados en plantilla son simples y se definen principalmente en el HTML. Son ideales para formularios sencillos.
 
 ```typescript
 // contacto.component.ts
@@ -304,13 +304,13 @@ export class ContactoComponent {
 }
 ```
 
-### 8.1. Two-way binding con ngModel
+### 8.1. Enlace Bidireccional con ngModel
 
 `[(ngModel)]` sincroniza el valor del campo con la propiedad del componente en ambas direcciones.
 
 ---
 
-## 9. Reactive Forms
+## 9. Formularios Reactivos
 
 Los formularios reactivos ofrecen mayor control, son más testables y escalables. La lógica reside en el componente TypeScript.
 
@@ -498,12 +498,12 @@ export class HabilidadesComponent implements OnInit {
 
 ---
 
-## 12. Comparativa: Template-driven vs Reactive Forms
+## 12. Comparativa: Formularios Basados en Plantilla vs Formularios Reactivos
 
-| Característica | Template-driven | Reactive |
-|----------------|-----------------|---------|
+| Característica | Basados en Plantilla | Reactivos |
+|----------------|----------------------|-----------|
 | Definición del formulario | En la plantilla HTML | En el componente TypeScript |
-| Modelo de datos | `ngModel` (two-way binding) | `FormControl`, `FormGroup`, `FormArray` |
+| Modelo de datos | `ngModel` (enlace bidireccional) | `FormControl`, `FormGroup`, `FormArray` |
 | Validaciones | Directivas en la plantilla | Funciones en TypeScript |
 | Testabilidad | Más difícil de testear | Fácil de testear de forma unitaria |
 | Complejidad recomendada | Formularios simples | Formularios complejos y dinámicos |
